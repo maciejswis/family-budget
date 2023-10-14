@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  sqlserver:
+    build:
+      context: ./sqlserver
+    container_name: mssql
+    environment: 
+      MSSQL_SA_PASSWORD: "Pa33wo5d@!" 
+    ports:
+      - "1433:1433"
+    volumes:
+      - db-data:/var/opt/mssql
+
+  familybudget:
+    image: ${DOCKER_REGISTRY-}familybudget
+    build:
+      context: .
+      dockerfile: src/FamilyBudget.Web/Dockerfile
+
+
+volumes:
+  db-data:

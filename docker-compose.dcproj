@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk" DefaultTargets="Build">
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.1</ProjectVersion>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectGuid>{4125FCE0-38E4-44A9-BFE3-1B3720ED6075}</ProjectGuid>
+    <DockerLaunchBrowser>True</DockerLaunchBrowser>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+    <DockerServiceName>familybudget</DockerServiceName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="docker-compose.override.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.yml" />
+    <None Include=".dockerignore" />
+    <None Include="sqlserver\Dockerfile" />
+    <None Include="sqlserver\entrypoint.sh" />
+    <None Include="sqlserver\run-initialization.sh" />
+    <None Include="sqlserver\create-database.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="sqlserver\" />
+  </ItemGroup>
+</Project>
