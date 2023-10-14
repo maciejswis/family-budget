@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using FamilyBudget.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
- 
 
 
 namespace FamilyBudget.Infra;
@@ -26,6 +24,11 @@ public class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        modelBuilder.Entity<Budget>()
+            .HasMany(b => b.Users)
+            .WithMany();
+
     }
 }
 

@@ -18,8 +18,10 @@
     <None Include="sqlserver\entrypoint.sh" />
     <None Include="sqlserver\run-initialization.sh" />
     <None Include="sqlserver\create-database.sql" />
+    <None Include="keycloak\Dockerfile" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="sqlserver\" />
+    <Folder Include="keycloak\" />
   </ItemGroup>
 </Project>
