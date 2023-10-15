@@ -40,7 +40,6 @@ namespace FamilyBudget.Core.Budgets
                     Results = result.Select(MapToDto).ToList(),
                     Total = total
                 };
-
         }
 
         public async Task<BudgetDto> Add(BudgetDto budgetDto, Guid currentUser)

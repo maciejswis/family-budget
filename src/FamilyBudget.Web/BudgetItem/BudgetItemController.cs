@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using FamilyBudget.Core;
 using FamilyBudget.Core.Budgets;
-using FamilyBudget.Core.Entities;
 using FamilyBudget.Core.Users;
-using FamilyBudget.Web.Budget;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FamilyBudget.Web.BudgetItem;
 

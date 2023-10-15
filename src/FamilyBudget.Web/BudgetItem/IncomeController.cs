@@ -62,6 +62,14 @@ public class IncomeController : FamilyBudgetControllerBase
         return mapper.Map<BudgetItemResponse>(result);
     }
 
+
+    [HttpDelete]
+    [Route("{incomeId}")]
+    public async Task<bool> Delete(Guid budgetId, Guid incomeId, Guid currentUser)
+    { 
+        return await _service.Delete(budgetId, incomeId, currentUser);
+    }
+
     public static Mapper GetMapper()
     {
         var config = new MapperConfiguration(cfg =>

@@ -33,7 +33,7 @@ namespace FamilyBudget.Core.Budgets
 
         public async Task<BudgetItemDto?> Update(BudgetItemDto budgetItemDto, Guid currentUser)
         {
-            var budget = await GetBudget(budgetItemDto.Id, currentUser);
+            var budget = await GetBudget(budgetItemDto.BudgetId, currentUser);
             if (budget == null)
             {
                 return null;
@@ -50,6 +50,18 @@ namespace FamilyBudget.Core.Budgets
             var result = await _repository.Update(budgetItem);
             var mapper = GetMapper();
             return mapper.Map<TDto>(result);
+        }
+
+        public async Task<bool> Delete(Guid budgetId, Guid budgetItemId, Guid currentUser)
+        {
+            var budget = await GetBudget(budgetId, currentUser);
+            if (budget == null)
+            {
+                return false;
+            }
+
+            var entity = await _repository.Delete(budgetItemId);
+            return entity != null;
         }
 
         private async Task<Budget?> GetBudget(Guid budgetId, Guid currentUser)
