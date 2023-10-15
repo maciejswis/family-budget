@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using FamilyBudget.Core;
 using FamilyBudget.Core.Users;
-using FamilyBudget.Web.Budget;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FamilyBudget.Web.User;
@@ -26,13 +25,14 @@ public class UserController: FamilyBudgetControllerBase
     [HttpGet]
     public async Task<PagedResponse<UserResponse>> Get([FromQuery] UserPageableRequest pageable)
     {
-        var pagedResult = await _userService.GetAll(pageable.UserName, pageable);
+        var validPagable = new Pageable(pageable.PageSize, pageable.PageNumber);
+        var pagedResult = await _userService.GetAll(pageable.UserName, validPagable);
         var mapper = GetMapper();
         return new PagedResponse<UserResponse> {
             Results = pagedResult.Results.Select(mapper.Map<UserResponse>).ToList(),
             Total = pagedResult.Total,
-            PageSize =pageable.PageSize,
-            CurrentPage = pageable.PageNumber,
+            PageSize = validPagable.PageSize,
+            CurrentPage = validPagable.PageNumber,
         };
     }
 

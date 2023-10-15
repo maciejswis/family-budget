@@ -2,6 +2,7 @@
 using FamilyBudget.Core.Entities;
 using FamilyBudget.Infra;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using User = FamilyBudget.Core.Entities.User;
 
 namespace FamilyBudget.Web;
@@ -35,9 +36,10 @@ public static class SeedData
                 return;   // DB has been seeded
             }
 
-            PopulateTestData(dbContext);
+            // PopulateTestData(dbContext);
         }
     }
+
     public static void PopulateTestData(AppDbContext dbContext)
     {
         foreach (var item in dbContext.Users)
@@ -53,14 +55,16 @@ public static class SeedData
         {
             Id = Guid.NewGuid(),
             Name = "First budget",
-            Users = new List<Core.Entities.User> { user1 }
+            Users = new List<Core.Entities.User> { user1 },
+            RowVersion = new byte[] { }
         });
 
         dbContext.Budgets.Add(new Core.Entities.Budget
         {
             Id = Guid.NewGuid(),
             Name = "Second budget",
-            Users = new List<Core.Entities.User> { user1, user2 }
+            Users = new List<Core.Entities.User> { user1, user2 },
+            RowVersion = new byte[] { }
         });
 
         dbContext.SaveChanges();

@@ -22,10 +22,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Fixtures\" />
-    <None Remove="UserTests %28copy%29\" />
+    <None Remove="UserTests\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fixtures\" />
-    <Folder Include="UserTests %28copy%29\" />
+    <Folder Include="UserTests\" />
   </ItemGroup>
 </Project>
