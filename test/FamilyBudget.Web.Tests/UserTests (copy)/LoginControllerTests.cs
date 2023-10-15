@@ -10,21 +10,21 @@ namespace FamilyBudget.Web.Tests;
 public class LoginControllerTests : IntegrationTest
 {
     public LoginControllerTests(ApiWebApplicationFactory fixture) : base(fixture)
-    {
-    }
+    { }
 
     [Fact]
     public async Task Get_login_returns_OK()
     {
-        var response = await _client.GetAsync("/Login&test=hallo");
+        var response = await _client.GetAsync("/Login?test=sdfsdf");
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
     [Fact]
     public async Task Get_login_returns_string_value()
     {
-        var response = await _client.GetAsync("/Login&test=hallo");
-        response.Content.Should().Be("teste");
+        var response = await _client.GetAsync("/Login?test=sdfsdf");
+        var content = await response.Content.ReadAsStringAsync();
+        content.Should().Be("sdfsdf!!");
     }
 }
 

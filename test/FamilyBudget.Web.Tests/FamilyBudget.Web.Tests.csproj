@@ -14,15 +14,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Autofac" Version="7.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.12" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\FamilyBudget.Web\FamilyBudget.Web.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Fixtures\" />
+    <None Remove="UserTests %28copy%29\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fixtures\" />
+    <Folder Include="UserTests %28copy%29\" />
   </ItemGroup>
 </Project>

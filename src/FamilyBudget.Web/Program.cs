@@ -51,9 +51,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
     containerBuilder.RegisterModule(new AutofacInfrastructureModule(builder.Environment.IsDevelopment()));
 });
 
-var app = builder.Build();
-
-
+await using var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -87,7 +85,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-app.Run();
+await app.RunAsync();
 
 // Make the implicit Program.cs class public, so integration tests can reference the correct assembly for host building
 public partial class Program

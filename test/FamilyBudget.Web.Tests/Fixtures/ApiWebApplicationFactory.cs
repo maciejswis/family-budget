@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq.Expressions;
-using FamilyBudget.Core;
+﻿using FamilyBudget.Infra;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace FamilyBudget.Web.Tests.Fixtures
 {
@@ -16,26 +15,70 @@ namespace FamilyBudget.Web.Tests.Fixtures
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureAppConfiguration(config =>
-            {
-                Configuration = new ConfigurationBuilder()
-                  .AddJsonFile("integrationsettings.json")
-                  .Build();
+            builder
+                .ConfigureServices(services =>
+                {
+                    // Remove the app's AppDbContext registration.
+                    var descriptor = services.SingleOrDefault(
+            d => d.ServiceType ==
+                typeof(DbContextOptions<AppDbContext>));
 
-                config.AddConfiguration(Configuration);
-            });
+                    if (descriptor != null)
+                    {
+                        services.Remove(descriptor);
+                    }
 
-            builder.ConfigureTestServices(services =>
+                    // This should be set for each individual test run
+                    string inMemoryCollectionName = Guid.NewGuid().ToString();
+
+                    // Add ApplicationDbContext using an in-memory database for testing.
+                    services.AddDbContext<AppDbContext>(options =>
+                    {
+                        options.UseInMemoryDatabase(inMemoryCollectionName);
+                    });
+                });
+        }
+
+        protected override IHost CreateHost(IHostBuilder builder)
+        {
+            builder.UseEnvironment("Development");
+            var host = builder.Build();
+            host.Start();
+
+            // Get service provider.
+            var serviceProvider = host.Services;
+
+            // Create a scope to obtain a reference to the database
+            // context (AppDbContext).
+            using (var scope = serviceProvider.CreateScope())
             {
-                //services.AddTransient<IRepository<Core.Entities.User>, UserRepositoryStub>();
-                //services.AddTransient<IRepository<Core.Entities.Budget>, BudgetRepositoryStub>();
-                //services.AddTransient<IRepository<Core.Entities.BudgetItem>, BudgetItemRepositoryStub>();
-            });
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<AppDbContext>();
+
+                var logger = scopedServices
+                    .GetRequiredService<ILogger<ApiWebApplicationFactory>>();
+
+                // Ensure the database is created.
+                db.Database.EnsureCreated();
+
+                try
+                {
+                    SeedData.PopulateTestData(db);
+
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred seeding the " +
+                                        "database with test messages. Error: {exceptionMessage}", ex.Message);
+                }
+            }
+
+            return host;
         }
     }
 
     public abstract class IntegrationTest : IClassFixture<ApiWebApplicationFactory>
-    { 
+    {
         protected readonly ApiWebApplicationFactory _factory;
         protected readonly HttpClient _client;
 
@@ -45,7 +88,4 @@ namespace FamilyBudget.Web.Tests.Fixtures
             _client = _factory.CreateClient();
         }
     }
-
-  
 }
-
