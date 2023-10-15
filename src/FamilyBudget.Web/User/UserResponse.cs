@@ -1,9 +1,9 @@
-﻿namespace FamilyBudget.Core.Entities;
+﻿namespace FamilyBudget.Web.User;
 
-public class User: IEntity
+public class UserResponse
 {
     public Guid Id { get; set; }
-    public string UserName { get; set; }
     public string FullName { get; set; }
+    public string UserName { get; set; }
     public string Email { get; set; }
 }

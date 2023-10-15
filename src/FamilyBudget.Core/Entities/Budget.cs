@@ -3,12 +3,15 @@
 public class Budget: IEntity
 {
     public Budget() { }
+     
+    public byte[] RowVersion { get; set; }
 
     public Budget(string name, User user)
     {
         this.Name = name;
         this.Users.Add(user);
         this.CreatedBy = user.Id;
+        
     }
 
 

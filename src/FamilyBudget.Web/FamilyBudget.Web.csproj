@@ -20,13 +20,22 @@
     </PackageReference>
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Budget\" />
+    <None Remove="BudgetItem\" />
+    <None Remove="Filter\" />
+    <None Remove="Validator\" />
+    <None Remove="User\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Budget\" />
+    <Folder Include="BudgetItem\" />
+    <Folder Include="Filter\" />
+    <Folder Include="Validator\" />
+    <Folder Include="User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FamilyBudget.Core\FamilyBudget.Core.csproj">

@@ -1,51 +1,52 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace FamilyBudget.Core.Entities;
 
-namespace FamilyBudget.Core.Entities;
 
- 
-public abstract class BudgetItem: IEntity
+public abstract class BudgetItem : IEntity
 {
     public BudgetItem() { }
 
-    [Key]
     public Guid Id { get; set; }
     public string Name { get; set; }
-    // public Money Expences { get; set; }
-    public Guid UserId { get; set; }
-    public string UserName { get; set; } 
+    public decimal Value { get; set; }
+    public Guid BudgetId { get; set; }
+    public byte[] RowVersion { get; set; }
+    public Currency Currency { get; set; }
+    public BudgetItemCategory Category { get; set; }
 }
 
-public class Expense: BudgetItem
+public class Expense : BudgetItem
 {
     public Expense() { }
-  //  public BudgetType Type { get; private set; } = BudgetType.Expense;
 }
 
-public class Income: BudgetItem
+public class Income : BudgetItem
 {
-    public Income()
-    {
-
-    }
-  //    public BudgetType Type { get; private set; } = BudgetType.Income;
+    public Income() { }
 }
 
-public enum BudgetType
+public enum BudgetType : int
 {
     Unknown = 0,
     Income = 1,
     Expense = 2,
 }
 
-public class Money
-{
-    public Currency Currency { get; set; }
-    public decimal Value { get; set; }
-}
-
 public enum Currency
 {
     PLN = 0,
     USD = 1,
+}
+
+public enum BudgetItemCategory : int
+{
+    Other = 0,
+    Housing = 1,
+    Transportation = 2,
+    Food = 3,
+    Utilities = 4,
+    Insurance = 5,
+    MedicalHealthcare = 6,
+    Saving = 7,
+    PersonalSpending = 8
 }
 

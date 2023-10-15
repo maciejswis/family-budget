@@ -7,7 +7,7 @@ namespace FamilyBudget.Infra;
 
 public class AppDbContext : DbContext
 {
-    
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options)
     {
@@ -26,9 +26,22 @@ public class AppDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         modelBuilder.Entity<Budget>()
-            .HasMany(b => b.Users)
-            .WithMany();
+           .Property(b => b.RowVersion).IsRowVersion();
 
+        modelBuilder.Entity<Budget>()
+         .HasMany(b => b.Users)
+         .WithMany();
+
+        modelBuilder.Entity<BudgetItem>()
+            .Property(b => b.Value)
+            .HasColumnType("SMALLMONEY");
+
+        modelBuilder.Entity<BudgetItem>()
+          .Property(b => b.RowVersion).IsRowVersion();
+
+        modelBuilder.Entity<BudgetItem>()
+            .Property(b => b.Category)
+            .HasConversion<string>();
     }
 }
 

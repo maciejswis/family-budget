@@ -4,21 +4,41 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FamilyBudget.Web;
 using FamilyBudget.Core;
+using FamilyBudget.Web.Filter;
+using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-// builder.Host.UseSerilog((_, config) => config.ReadFrom.Configuration(builder.Configuration));
-
 
 builder.Services.AddControllers(options =>
+{
     // options.Filters.Add(new ValidateModelAttribute())
-    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
- 
+    options.Filters.Add<HttpResponseExceptionFilter>();
+    options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+})
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        new BadRequestObjectResult(context.ModelState)
+        {
+            ContentTypes = { Application.Json }
+        };
+    })
+    .AddNewtonsoftJson(o => o.SerializerSettings.Converters.Add(new StringEnumConverter
+    {
+        //CamelCaseText = true,//absolete
+        NamingStrategy = new CamelCaseNamingStrategy()
+    }));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenNewtonsoftSupport();
+builder.Services.AddSwaggerGen(c => c.SchemaFilter<EnumSchemaFilter>());
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -56,8 +76,8 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        //                    context.Database.Migrate();
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
+        //context.Database.EnsureCreated();
         SeedData.Initialize(services);
     }
     catch (Exception ex)

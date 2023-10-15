@@ -1,22 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FamilyBudget.Budget;
-
-public class BudgetItemResponse
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    // public currency, value, budgetType
-    public decimal Value { get; set; }
-    public Guid UserId { get; set; }
-    public string UserName { get; set; }
-}
-
-public class ExpenseRequest
-{
-    public string Name { get; set; }
-    public string Value { get; set; }
-}
+namespace FamilyBudget.Web.Budget;
 
 public class BudgetRequest
 {
@@ -29,7 +13,6 @@ public class BudgetRequest
 
 public class BudgetResponse
 {
+    public Guid Id { get; set; }
     public string Name { get; set; }
-
-    //public List<UserResponse> SharedWith { get; set; }
 }

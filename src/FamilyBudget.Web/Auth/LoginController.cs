@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FamilyBudget.Auth;
+namespace FamilyBudget.Web.Auth;
 
 [ApiController]
 [Route("[controller]")]
 public class LoginController : ControllerBase
-{   
-    
+{
+
 }

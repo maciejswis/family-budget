@@ -8,53 +8,53 @@ using Microsoft.EntityFrameworkCore;
 namespace FamilyBudget.Infra
 {
 
-    public class UserRepository : IRepository<User>
+    public class UserRepository : EfCoreRepository<User, AppDbContext>
     {
-        private AppDbContext _context;
 
-        public UserRepository(AppDbContext context)
+        public UserRepository(AppDbContext context) : base(context)
         {
-            this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<User?> GetByIdAsync(Guid id)
-        {
-            var user = await _context.Users.Where(u => u.Id == id).SingleOrDefaultAsync();
-            return user;
-        }
+        //public async Task<User?> GetByIdAsync(Guid id)
+        //{
+        //    var user = await _context.Users.Where(u => u.Id == id).SingleOrDefaultAsync();
+        //    return user;
+        //}
 
-        public User Insert(User user)
-        {
-            return _context.Users.Add(user).Entity;
-        }
+        //public async Task<User> InsertAsync(User user)
+        //{
+        //    var result = _context.Users.Add(user).Entity;
+        //    await _context.SaveChangesAsync();
+        //    return result;
+        //}
 
-        public async virtual Task<ICollection<User>> GetAsync(
-            Expression<Func<User, bool>> filter = null,
-            Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null,
-            string includeProperties = "")
-        {
-            IQueryable<User> users = _context.Users;
+        //public async virtual Task<ICollection<User>> GetAllAsync(
+        //    Expression<Func<User, bool>> filter = null,
+        //    Func<IQueryable<User>, IOrderedQueryable<User>> orderBy = null,
+        //    string includeProperties = "")
+        //{
+        //    IQueryable<User> users = _context.Users;
 
-            if (filter != null)
-            {
-                users = users.Where(filter);
-            }
+        //    if (filter != null)
+        //    {
+        //        users = users.Where(filter);
+        //    }
 
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                users = users.Include(includeProperty);
-            }
+        //    foreach (var includeProperty in includeProperties.Split
+        //        (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        //    {
+        //        users = users.Include(includeProperty);
+        //    }
 
-            if (orderBy != null)
-            {
-                return orderBy(users).ToList();
-            }
-            else
-            {
-                return await users.ToListAsync();
-            }
-        } 
+        //    if (orderBy != null)
+        //    {
+        //        return orderBy(users).ToList();
+        //    }
+        //    else
+        //    {
+        //        return await users.ToListAsync();
+        //    }
+        //} 
     }
 
     //public class DataRepository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity

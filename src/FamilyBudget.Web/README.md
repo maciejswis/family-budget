@@ -12,3 +12,5 @@ In order to generate new migration script run following command from console:
 ```
 dotnet ef migrations add InitialCreate --project ./src/FamilyBudget.Infra/FamilyBudget.Infra.csproj  --startup-project ./src/FamilyBudget.Web/FamilyBudget.Web.csproj
 ```
+
+ dotnet ef database update
