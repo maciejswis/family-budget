@@ -27,9 +27,9 @@ namespace FamilyBudget.Web.Tests.Fixtures
 
             builder.ConfigureTestServices(services =>
             {
-             //   services.AddTransient<IRepository<Core.Entities.User>, UserRepositoryStub>();
-          //     services.AddTransient<IRepository<Core.Entities.Budget>, BudgetRepositoryStub>();
-          //      services.AddTransient<IRepository<Core.Entities.BudgetItem>, BudgetItemRepositoryStub>();
+                //services.AddTransient<IRepository<Core.Entities.User>, UserRepositoryStub>();
+                //services.AddTransient<IRepository<Core.Entities.Budget>, BudgetRepositoryStub>();
+                //services.AddTransient<IRepository<Core.Entities.BudgetItem>, BudgetItemRepositoryStub>();
             });
         }
     }
@@ -46,38 +46,6 @@ namespace FamilyBudget.Web.Tests.Fixtures
         }
     }
 
-    public class UserRepositoryStub : IRepository<Core.Entities.User>
-    {
-        public async Task<Core.Entities.User> Add(Core.Entities.User entity)
-        {
-            entity.Id = Guid.NewGuid();
-            return entity;
-        }
-
-        public Task<long> Count(Expression<Func<Core.Entities.User, bool>> filter = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Core.Entities.User> Delete(object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Core.Entities.User?> Get(object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ICollection<Core.Entities.User>> GetAll(Expression<Func<Core.Entities.User, bool>> filter = null, Func<IQueryable<Core.Entities.User>, IOrderedQueryable<Core.Entities.User>> orderBy = null, Pageable pageable = null, string includeProperties = "")
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Core.Entities.User> Update(Core.Entities.User entity)
-        {
-            throw new NotImplementedException();
-        }
-    }
+  
 }
 

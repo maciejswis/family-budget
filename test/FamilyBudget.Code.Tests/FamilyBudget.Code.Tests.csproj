@@ -27,4 +27,14 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\FamilyBudget.Core\FamilyBudget.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Builders\" />
+    <None Remove="BudgetServiceTests\" />
+    <None Remove="UserServiceTests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Builders\" />
+    <Folder Include="BudgetServiceTests\" />
+    <Folder Include="UserServiceTests\" />
+  </ItemGroup>
 </Project>

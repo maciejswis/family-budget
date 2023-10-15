@@ -4,17 +4,14 @@ using Microsoft.Extensions.Logging;
 namespace FamilyBudget.Core.Budgets
 {
     public class BudgetService : IBudgetService
-    {
-        private readonly ILogger<BudgetService> _logger;
+    { 
         private readonly IRepository<Budget> _repository;
         private readonly IRepository<User> _userRepository;
 
         public BudgetService(
-            ILogger<BudgetService> logger,
             IRepository<Budget> repository,
             IRepository<User> userRepository)
-        {
-            _logger = logger;
+        { 
             _repository = repository;
             _userRepository = userRepository;
         }
@@ -80,8 +77,8 @@ namespace FamilyBudget.Core.Budgets
 
         public async Task<bool> Share(Guid budgetId, Guid userId, Guid currentUser)
         {
-            var budget = await GetBudget(budgetId, currentUser);
             var user = await _userRepository.Get(userId);
+            var budget = await GetBudget(budgetId, currentUser);
             if (budget == null || user == null)
             {
                 return false;
