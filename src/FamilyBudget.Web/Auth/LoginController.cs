@@ -6,5 +6,9 @@ namespace FamilyBudget.Web.Auth;
 [Route("[controller]")]
 public class LoginController : ControllerBase
 {
-
+    [HttpGet]
+    public async Task<string> GetLogin(string test)
+    {
+        return test + "!!";
+    }
 }

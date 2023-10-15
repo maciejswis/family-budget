@@ -28,6 +28,11 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Budget>()
            .Property(b => b.RowVersion).IsRowVersion();
 
+        modelBuilder.Entity<Budget>(e => e.HasIndex(i => i.Name).IsUnique());
+
+        modelBuilder.Entity<User>(u => u.HasIndex(i => i.Email).IsUnique());
+        modelBuilder.Entity<User>(u => u.HasIndex(i => i.UserName).IsUnique());
+
         modelBuilder.Entity<Budget>()
          .HasMany(b => b.Users)
          .WithMany();

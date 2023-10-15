@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using FamilyBudget.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -20,6 +21,14 @@ public class HttpResponseExceptionFilter : IActionFilter, IOrderedFilter
                 StatusCode = httpResponseException.StatusCode
             };
 
+            context.ExceptionHandled = true;
+        }
+        if (context.Exception is NotUniqueException notUniqueException)
+        {
+            context.Result = new ObjectResult(notUniqueException.Message)
+            {
+                StatusCode = (int)HttpStatusCode.BadRequest
+            };
             context.ExceptionHandled = true;
         }
     }
