@@ -15,6 +15,12 @@ to have some level of data persistency.
 Simple app provides a Swagger UI (that will show up once you build&run solution).
 There is an option to add users, budgets, and budgets items (expenses or incomes).
 
+## Issues
+
+First run of sql server will create a new database called "FamilyBudget" (this action is defined with delay).
+That will require some additional time (it could happen that migrations will no be applied at first application run).
+If you face the error with accessing the database from application, please re-run application
+(launch again - and than migration should applied). 
 
 ## Testing
 In the solution are two test projects.
